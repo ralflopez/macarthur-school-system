@@ -22,8 +22,11 @@ public class Material {
     @Column(nullable = false)
     private String type;
 
-    @Lob
-    private byte[] data;
+    @Column(nullable = false)
+    private String filePath;
+
+//    @Lob
+//    private byte[] data;
 
     @ManyToOne()
     @JoinColumn(name = "task_id", referencedColumnName = "id")

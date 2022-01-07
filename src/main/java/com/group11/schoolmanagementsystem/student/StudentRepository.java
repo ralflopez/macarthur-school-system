@@ -1,2 +1,8 @@
-package com.group11.schoolmanagementsystem.student;public interface StudentRepository {
+package com.group11.schoolmanagementsystem.student;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
 }
