@@ -1,10 +1,14 @@
 package com.group11.schoolmanagementsystem.teacher;
 
+import com.group11.schoolmanagementsystem.school.School;
+import com.group11.schoolmanagementsystem.section.Section;
+import com.group11.schoolmanagementsystem.subject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,4 +28,11 @@ public class Teacher {
 
     @Column(nullable = false)
     private String last_name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id", referencedColumnName = "id")
+    private School school;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Subject> sections;
 }

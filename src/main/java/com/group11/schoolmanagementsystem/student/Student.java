@@ -1,6 +1,7 @@
 package com.group11.schoolmanagementsystem.student;
 
 import com.group11.schoolmanagementsystem.enums.Gender;
+import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.section.Section;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,4 +43,8 @@ public class Student {
     @ManyToOne()
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id", referencedColumnName = "id")
+    private School school;
 }

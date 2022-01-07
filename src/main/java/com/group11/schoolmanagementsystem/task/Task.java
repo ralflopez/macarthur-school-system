@@ -31,8 +31,4 @@ public class Task {
     @ManyToOne()
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
-
-    @ManyToOne()
-    @JoinColumn(name = "section_id", referencedColumnName = "id")
-    private Section section;
 }
