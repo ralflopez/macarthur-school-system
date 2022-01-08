@@ -45,11 +45,11 @@ public class MaterialController {
     // Reference: https://stackoverflow.com/questions/35680932/download-a-file-from-spring-boot-rest-service
     @GetMapping("/download")
     public ResponseEntity download() {
-        Path path = Paths.get(uploadDirectory, "hello.txt");
+        Path path = Paths.get(uploadDirectory, "English/Grade 1 - Section 1/English Teacher/Q1/Written/Chapter 1. Basic Grammar Intro.txt");
         File file = path.toFile();
 
         HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=hello.txt");
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Chapter 1. Basic Grammar Intro.txt");
         header.add("Cache-Control", "no-cache, no-store, must-revalidate");
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");

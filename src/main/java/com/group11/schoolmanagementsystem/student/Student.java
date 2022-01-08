@@ -4,6 +4,7 @@ import com.group11.schoolmanagementsystem.enums.Gender;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.section.Section;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "student")
@@ -20,24 +22,24 @@ public class Student {
     private Long lrn;
 
     @Column(nullable = false)
-    private String first_name;
+    private String firstName;
 
     @Column()
-    private String middle_name;
+    private String middleName;
 
     @Column(nullable = false)
-    private String last_name;
+    private String lastName;
 
     @Column(nullable = false)
-    private int birth_month;
+    private int birthMonth;
 
     @Column(nullable = false)
-    private int birth_day;
+    private int birthDay;
 
     @Column(nullable = false)
-    private int birth_year;
+    private int birthYear;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @ManyToOne()
