@@ -3,6 +3,7 @@ package com.group11.schoolmanagementsystem.task;
 import com.group11.schoolmanagementsystem.enums.TaskType;
 import com.group11.schoolmanagementsystem.section.Section;
 import com.group11.schoolmanagementsystem.subject.Subject;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,17 +1,31 @@
 package com.group11.schoolmanagementsystem.db;
 
+import com.group11.schoolmanagementsystem.department.Department;
+import com.group11.schoolmanagementsystem.department.DepartmentRepository;
+import com.group11.schoolmanagementsystem.department.dto.DepartmentDto;
+import com.group11.schoolmanagementsystem.enums.Gender;
+import com.group11.schoolmanagementsystem.enums.QuestionType;
 import com.group11.schoolmanagementsystem.enums.SubjectDepartment;
 import com.group11.schoolmanagementsystem.enums.TaskType;
+import com.group11.schoolmanagementsystem.grade.Grade;
 import com.group11.schoolmanagementsystem.grade.GradeRepository;
 import com.group11.schoolmanagementsystem.principal.Principal;
 import com.group11.schoolmanagementsystem.principal.PrincipalRepository;
+import com.group11.schoolmanagementsystem.question.Answer;
+import com.group11.schoolmanagementsystem.question.Choice;
+import com.group11.schoolmanagementsystem.question.Question;
+import com.group11.schoolmanagementsystem.question.QuestionRepository;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.school.SchoolRepository;
 import com.group11.schoolmanagementsystem.section.Section;
 import com.group11.schoolmanagementsystem.section.SectionRepository;
+import com.group11.schoolmanagementsystem.student.Student;
 import com.group11.schoolmanagementsystem.student.StudentRepository;
 import com.group11.schoolmanagementsystem.subject.Subject;
 import com.group11.schoolmanagementsystem.subject.SubjectRepository;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSectionKey;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSectionRepository;
 import com.group11.schoolmanagementsystem.task.Task;
 import com.group11.schoolmanagementsystem.task.TaskRepository;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
@@ -34,9 +48,22 @@ public class Seeder {
     private SubjectRepository subjectRepository;
     private TaskRepository taskRepository;
     private GradeRepository gradeRepository;
+    private DepartmentRepository departmentRepository;
+    private QuestionRepository questionRepository;
+    private SubjectSectionRepository subjectSectionRepository;
+
+    private School school;
+    private List<String> subjects = List.of("English", "Science", "Mathematics", "Filipino", "ESP", "MAPEH", "Mother Tounge", "Araling Panlipunan");
+    List<Department> departments = new ArrayList<>();
+    List<Teacher> teachers = new ArrayList<>();
+    List<Section> sections = new ArrayList<>();
+    List<Student> students = new ArrayList<>();
+    List<Subject> subjectsEntities = new ArrayList<>();
+    List<Task> tasks = new ArrayList<>();
+    List<Question> questions = new ArrayList<>();
 
     @Autowired
-    public Seeder(SchoolRepository schoolRepository, PrincipalRepository principalRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, SectionRepository sectionRepository, SubjectRepository subjectRepository, TaskRepository taskRepository, GradeRepository gradeRepository) {
+    public Seeder(SchoolRepository schoolRepository, PrincipalRepository principalRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, SectionRepository sectionRepository, SubjectRepository subjectRepository, TaskRepository taskRepository, GradeRepository gradeRepository, DepartmentRepository departmentRepository, QuestionRepository questionRepository, SubjectSectionRepository subjectSectionRepository) {
         this.schoolRepository = schoolRepository;
         this.principalRepository = principalRepository;
         this.teacherRepository = teacherRepository;
@@ -45,6 +72,9 @@ public class Seeder {
         this.subjectRepository = subjectRepository;
         this.taskRepository = taskRepository;
         this.gradeRepository = gradeRepository;
+        this.departmentRepository = departmentRepository;
+        this.questionRepository = questionRepository;
+        this.subjectSectionRepository = subjectSectionRepository;
     }
 
     @EventListener
@@ -55,234 +85,219 @@ public class Seeder {
         teacherRepository.deleteAll();
         sectionRepository.deleteAll();
         taskRepository.deleteAll();
+        departmentRepository.deleteAll();
+        questionRepository.deleteAll();
+        gradeRepository.deleteAll();
+        subjectSectionRepository.deleteAll();
+        taskRepository.deleteAll();
+        questionRepository.deleteAll();
+        gradeRepository.deleteAll();
 
         seedSchool();
         seedPrincipal();
-        seedSubjects();
-        seedTeachers();
-        seedSections();
-        seedTasks();
+        seedDepartment();
+        seedSubject();
+        seedTeacher();
+        seedHeadTeacher();
+        seedSection();
+        seedStudent();
+        seedSubjectSectionTeacher();
+        seedTask();
+        seedQuestions();
+        seedGrade();
 
         System.out.println("SEEDING DONE!!!!");
     }
 
-    private void seedSchool() {
-        if (schoolRepository.findById(Long.valueOf(122474)).isPresent()) {
-            return;
-        }
-
-        School newSchool = School.builder()
-                .id(Long.valueOf(122474))
-                .name("Alang-Alang Primary School")
-                .region("VIII")
-                .division("Eastern Samar")
-                .district("General Macarthur")
-                .build();
-
-        schoolRepository.save(newSchool);
+    public void seedSchool() {
+        this.school = new School(Long.valueOf(122474), "Alang-Alang Primary School", "VIII", "Eastern Samar", "General Macarthur");
+        schoolRepository.save(school);
     }
 
-    private void seedPrincipal() {
-        if (principalRepository.findById(Long.valueOf(1)).isPresent()) {
-            return;
-        }
-
-        School school = schoolRepository.findById(Long.valueOf(Long.valueOf(122474))).get();
-
-        Principal principal = Principal.builder()
-                .id(Long.valueOf(1))
-                .firstName("Principal")
-                .middleName("XXX")
-                .lastName("ABC")
-                .school(school)
-                .build();
-
-        principalRepository.save(principal);
+    public void seedPrincipal() {
+        principalRepository.save(
+                new Principal(Long.valueOf(1), "Principal", "Princiapl", "User", school, "principal", "password")
+        );
     }
 
-    private void seedSubjects() {
-        if (!subjectRepository.findAll().isEmpty()) {
-            return;
+    public void seedDepartment() {
+        for (int i = 0; i < subjects.size(); i++) {
+            departments.add(
+                    new Department(Long.valueOf(i + 1), subjects.get(i), null, null)
+            );
         }
 
-        Subject eng = Subject.builder()
-                .name("English")
-                .build();
-
-        Subject sci = Subject.builder()
-                .name("Science")
-                .build();
-
-        Subject math = Subject.builder()
-                .name("Math")
-                .build();
-
-        Subject fil = Subject.builder()
-                .name("Filipino")
-                .build();
-
-        Subject esp = Subject.builder()
-                .name("Edukasyon sa Pagpapakatao")
-                .build();
-
-        Subject mapeh = Subject.builder()
-                .name("MAPEH")
-                .build();
-
-        Subject mt = Subject.builder()
-                .name("Mother Tongue")
-                .build();
-
-        Subject ap = Subject.builder()
-                .name("Araling Panlipunan")
-                .build();
-
-        subjectRepository.saveAll(Arrays.asList(eng, sci, math, fil, esp, mapeh, mt, ap));
+        departmentRepository.saveAll(departments);
     }
 
-    private void seedTeachers() {
-        if (!teacherRepository.findAll().isEmpty()) {
-            return;
+    public void seedSubject() {
+        for (int i = 0; i < subjects.size(); i++) {
+            subjectsEntities.add(
+                    new Subject(
+                            Long.valueOf(i + 1),
+                            subjects.get(i),
+                            1
+//                            null
+                    )
+            );
         }
 
-        School school = schoolRepository.findById(Long.valueOf(Long.valueOf(122474))).get();
-        List<Subject> subjects = subjectRepository.findAll();
-
-        Teacher english = Teacher.builder()
-                .firstName("English")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("English")).collect(Collectors.toList()))
-                .build();
-
-        Teacher science = Teacher.builder()
-                .firstName("Science")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Science")).collect(Collectors.toList()))
-                .build();
-
-        Teacher math = Teacher.builder()
-                .firstName("Math")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Math")).collect(Collectors.toList()))
-                .build();
-
-        Teacher fil = Teacher.builder()
-                .firstName("Filipino")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Filipino")).collect(Collectors.toList()))
-                .build();
-
-        Teacher esp = Teacher.builder()
-                .firstName("ESP")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Edukasyon sa Pagpapakatao")).collect(Collectors.toList()))
-                .build();
-
-        Teacher mapeh = Teacher.builder()
-                .firstName("Mapeh")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("MAPEH")).collect(Collectors.toList()))
-                .build();
-
-        Teacher mt = Teacher.builder()
-                .firstName("Mother Tongue")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Mother Tongue")).collect(Collectors.toList()))
-                .build();
-
-        Teacher ap = Teacher.builder()
-                .firstName("AP")
-                .middleName("ABC")
-                .lastName("Teacher")
-                .school(school)
-                .subjects(subjects.stream().filter(s -> s.getName().equals("Araling Panlipunan")).collect(Collectors.toList()))
-                .build();
-
-        teacherRepository.saveAll(Arrays.asList(english, science, mapeh, math, fil, esp, mt, ap));
+        subjectRepository.saveAll(subjectsEntities);
     }
 
-    private void seedSections() {
-        if (!sectionRepository.findAll().isEmpty()) {
-            return;
+    public void seedTeacher() {
+        for (int i = 0; i < subjects.size(); i++) {
+            teachers.add(
+                    new Teacher(
+                            Long.valueOf(i + 1),
+                            subjects.get(i),
+                            "Middle", "Teacher",
+                            subjects.get(i) + "Teacher123",
+                            "password",
+//                            null,
+                            departments.get(i))
+            );
         }
-        School school = schoolRepository.findById(Long.valueOf(Long.valueOf(122474))).get();
-        List<Subject> subjects = subjectRepository.findAll();
-
-        Section gradeOneSection1 = Section.builder()
-                .grade(1)
-                .name("1")
-                .school(school)
-                .adviser(teacherRepository.findById(Long.valueOf(1)).get())
-                .subjects(subjects)
-                .school(school)
-                .build();
-
-        Section gradeTwoSection1 = Section.builder()
-                .grade(2)
-                .name("1")
-                .school(school)
-                .adviser(teacherRepository.findById(Long.valueOf(2)).get())
-                .subjects(subjects)
-                .school(school)
-                .build();
-
-        Section gradeThreeSection1 = Section.builder()
-                .grade(3)
-                .name("1")
-                .school(school)
-                .adviser(teacherRepository.findById(Long.valueOf(3)).get())
-                .subjects(subjects)
-                .school(school)
-                .build();
-
-        sectionRepository.saveAll(Arrays.asList(gradeOneSection1, gradeTwoSection1, gradeThreeSection1));
+        teacherRepository.saveAll(teachers);
     }
 
-    public void seedTasks() {
-        if (!taskRepository.findAll().isEmpty()) {
-            return;
+    public void seedHeadTeacher() {
+        for (int i = 0; i < departments.size(); i++) {
+            Department department = departments.get(i);
+            department.setHead(teachers.get(i));
+            departmentRepository.save(department);
+        }
+    }
+
+    public void seedSection() {
+        for (int i = 0; i < 3; i++) {
+            sections.add(
+              new Section(Long.valueOf(i + 1), 1, String.valueOf(i + 1), teachers.get(i), null)
+            );
         }
 
-        List<Subject> subjects = subjectRepository.findAll();
-        List<Teacher> teachers = teacherRepository.findAll();
-        List<Section> sections = sectionRepository.findAll();
+        sectionRepository.saveAll(sections);
+    }
 
-        subjects.stream().forEachOrdered(s -> System.out.println(s.getName()));
-        teachers.stream().forEachOrdered(t -> System.out.println(t.getFirstName()));
-        sections.stream().forEachOrdered(s -> System.out.println(s.getGrade() + " " + s.getName()));
+    public void seedStudent() {
+        Random random = new Random();
+        students.add(new Student(Long.valueOf(12200000), "Test", "Student", "Student", 1, 1, 2016, Gender.MALE, sections.get(0), "test", "password"));
+        for (int i = 1; i < 30; i++) {
+            int randomDay = (int)Math.floor(Math.random()*(30-1+1)+1);
+            int randomMonth = (int)Math.floor(Math.random()*(12-1+1)+1);
+            int randomYear = (int)Math.floor(Math.random()*(2017-2016+2016)+2016);
+            boolean gender = random.nextBoolean();
 
-        Subject sub = subjects.stream().filter(s -> s.getName().equals("English")).findFirst().get();
-        System.out.println(sub.getName());
+            students.add(
+                    new Student(12200000 + Long.valueOf(i), "Student" + (i), "Student", "Student" + (i), randomMonth, randomDay, randomYear, Gender.valueOf(gender ? "MALE" : "FEMALE"), sections.get(0), "student" + (i), "password")
+            );
+        }
 
-        Teacher tec = teachers.stream().filter(t -> t.getId().equals(Long.valueOf(1))).findFirst().get();
-        System.out.println(tec.getFirstName());
+        studentRepository.saveAll(students);
+    }
 
-        Section sec = sections.stream().filter(s -> s.getId().equals(Long.valueOf(1))).findFirst().get();
-        System.out.println(sec.getName());
+    public void seedSubjectSectionTeacher() {
+        List<SubjectSection> subjectSections = new ArrayList<>();
+        for (int i = 0; i < sections.size(); i++) {
+            for (int j = 0; j < subjects.size(); j++) {
+                subjectSections.add(
+                    new SubjectSection(
+                            new SubjectSectionKey(subjectsEntities.get(j).getId(), sections.get(i).getId()),
+                            subjectsEntities.get(j),
+                            sections.get(i),
+                            teachers.get(j)
+                    )
+                );
+            }
+        }
 
-        Task englishWritten = Task.builder()
-                .subject(subjects.stream().filter(s -> s.getName().equals("English")).findFirst().get())
-                .name("Chapter 1: Basic Grammar")
-                .quarter(1)
-                .type(TaskType.WRITTEN)
-                .teacher(teachers.stream().filter(t -> t.getId().equals(Long.valueOf(1))).findFirst().get())
-                .section(sections.stream().filter(s -> s.getId().equals(Long.valueOf(1))).findFirst().get())
-                .build();
+        subjectSectionRepository.saveAll(subjectSections);
+    }
 
-        taskRepository.save(englishWritten);
+    public void seedTask() {
+
+        for (int i = 0; i < subjects.size(); i++) {
+            Task task = Task.builder()
+                    .name("Introduction to " + subjectsEntities.get(i).getName())
+                    .quarter(1)
+                    .type(TaskType.WRITTEN)
+                    .teacher(teachers.get(i))
+                    .subject(subjectsEntities.get(i))
+                    .section(sections.get(0))
+                    .build();
+            tasks.add(task);
+        }
+
+        taskRepository.saveAll(tasks);
+    }
+
+    public void seedQuestions() {
+        for (int i = 0; i < tasks.size(); i++) {
+            Task t = tasks.get(i);
+            Question question = Question.builder()
+                    .question("What is " + t.getSubject().getName() + "?")
+                    .task(t)
+                    .point(1)
+                    .build();
+
+            Answer answer = Answer.builder()
+                    .question(question)
+                    .answer("")
+                    .type(QuestionType.OPEN)
+                    .build();
+
+            question.setAnswers(List.of(answer));
+            questions.add(question);
+
+            Question question1 = Question.builder()
+                    .task(t)
+                    .point(1)
+                    .question("What is this subject?")
+                    .build();
+
+            Choice choice11 = Choice.builder()
+                    .choice(subjects.get(i))
+                    .question(question1)
+                    .build();
+
+            Choice choice12 = Choice.builder()
+                    .choice("Classroom")
+                    .question(question1)
+                    .build();
+
+            Choice choice13 = Choice.builder()
+                    .choice("Wrong Answer")
+                    .question(question1)
+                    .build();
+
+            question1.setChoices(List.of(choice11, choice12, choice13));
+
+            Answer answer1 = Answer.builder()
+                    .question(question1)
+                    .type(QuestionType.ALPHA)
+                    .answer("a")
+                    .build();
+
+            question1.setAnswers(List.of(answer1));
+            questions.add(question1);
+        }
+
+        questionRepository.saveAll(questions);
+    }
+
+    public void seedGrade() {
+        List<Grade> grades = new ArrayList<>();
+        for (int i = 0; i < students.size(); i++) {
+            for (int j = 0; j < questions.size(); j++) {
+                Grade grade = Grade.builder()
+                        .student(students.get(i))
+                        .question(questions.get(j))
+                        .score(1)
+                        .build();
+                grades.add(grade);
+            }
+        }
+
+        gradeRepository.saveAll(grades);
     }
 }

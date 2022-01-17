@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeleteSubjectDto {
+public class DeleteTeacherDto {
     private Long id;
 }

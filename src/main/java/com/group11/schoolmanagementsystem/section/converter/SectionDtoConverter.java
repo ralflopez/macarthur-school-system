@@ -1,6 +1,7 @@
-package com.group11.schoolmanagementsystem.section.dto;
+package com.group11.schoolmanagementsystem.section.converter;
 
 import com.group11.schoolmanagementsystem.section.Section;
+import com.group11.schoolmanagementsystem.section.dto.SectionDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

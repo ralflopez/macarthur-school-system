@@ -1,15 +1,13 @@
 package com.group11.schoolmanagementsystem.principal;
 
 import com.group11.schoolmanagementsystem.school.School;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +29,10 @@ public class Principal {
     @OneToOne()
     @JoinColumn(name = "school_id", referencedColumnName = "id")
     private School school;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/school")
+@RequestMapping
 public class SchoolController {
     private SchoolService schoolService;
 
@@ -17,7 +17,7 @@ public class SchoolController {
     }
 
     @GetMapping
-    public School getSchool() {
-        throw new ApiRequestException("School already Exist");
+    public String welcome() {
+        return "Group 11: School Management API";
     }
 }

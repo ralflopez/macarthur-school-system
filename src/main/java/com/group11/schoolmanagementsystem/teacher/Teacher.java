@@ -1,19 +1,17 @@
 package com.group11.schoolmanagementsystem.teacher;
 
+import com.group11.schoolmanagementsystem.department.Department;
 import com.group11.schoolmanagementsystem.enums.SubjectDepartment;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.subject.Subject;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,15 +30,21 @@ public class Teacher {
     @Column(nullable = false)
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", referencedColumnName = "id")
-    private School school;
+    @Column(nullable = false, unique = true)
+    private String username;
 
-    @ManyToMany
-    @JoinTable(
-            name = "subject_teacher",
-            joinColumns = @JoinColumn(name="teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private List<Subject> subjects;
+    @Column(nullable = false)
+    private String password;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "subject_teacher",
+//            joinColumns = @JoinColumn(name="teacher_id"),
+//            inverseJoinColumns = @JoinColumn(name = "subject_id")
+//    )
+//    private List<Subject> subjects;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 }

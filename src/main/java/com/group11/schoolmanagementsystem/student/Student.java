@@ -3,15 +3,13 @@ package com.group11.schoolmanagementsystem.student;
 import com.group11.schoolmanagementsystem.enums.Gender;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.section.Section;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,7 +44,9 @@ public class Student {
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", referencedColumnName = "id")
-    private School school;
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
 }

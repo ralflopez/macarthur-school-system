@@ -1,2 +1,6 @@
-package com.group11.schoolmanagementsystem.question;public interface QuestionRepository {
+package com.group11.schoolmanagementsystem.question;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 }
