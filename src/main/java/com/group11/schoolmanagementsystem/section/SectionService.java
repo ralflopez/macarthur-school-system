@@ -6,6 +6,10 @@ import com.group11.schoolmanagementsystem.section.dto.SectionDto;
 import com.group11.schoolmanagementsystem.section.converter.SectionDtoConverter;
 import com.group11.schoolmanagementsystem.section.dto.UpdateSectionDto;
 import com.group11.schoolmanagementsystem.student.Student;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSectionRepository;
+import com.group11.schoolmanagementsystem.task.Task;
+import com.group11.schoolmanagementsystem.task.TaskRepository;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
 import com.group11.schoolmanagementsystem.teacher.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +24,16 @@ public class SectionService {
     private SectionRepository sectionRepository;
     private TeacherRepository teacherRepository;
     private SectionDtoConverter sectionDtoConverter;
+    private SubjectSectionRepository subjectSectionRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    public SectionService(SectionRepository sectionRepository, TeacherRepository teacherRepository, SectionDtoConverter sectionDtoConverter) {
+    public SectionService(SectionRepository sectionRepository, TeacherRepository teacherRepository, SectionDtoConverter sectionDtoConverter, SubjectSectionRepository subjectSectionRepository, TaskRepository taskRepository) {
         this.sectionRepository = sectionRepository;
         this.teacherRepository = teacherRepository;
         this.sectionDtoConverter = sectionDtoConverter;
+        this.subjectSectionRepository = subjectSectionRepository;
+        this.taskRepository = taskRepository;
     }
 
     public SectionDto create(CreateSectionDto createSectionDto) {
@@ -69,13 +77,13 @@ public class SectionService {
         return sectionDtoConverter.sectionToDto(section.get());
     }
 
-    public SectionDto update(UpdateSectionDto updateSectionDto) {
+    public SectionDto update(Long id, UpdateSectionDto updateSectionDto) {
         Optional<Teacher> adviser = teacherRepository.findById(updateSectionDto.getAdviserId());
         if (adviser.isEmpty()) {
             throw new ApiRequestException("Adviser Not Found");
         }
 
-        Optional<Section> section = sectionRepository.findById(updateSectionDto.getId());
+        Optional<Section> section = sectionRepository.findById(id);
         if (section.isEmpty()) {
             throw new ApiRequestException("Section Not Found");
         }

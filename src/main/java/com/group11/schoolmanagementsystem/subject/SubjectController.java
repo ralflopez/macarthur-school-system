@@ -1,14 +1,14 @@
 package com.group11.schoolmanagementsystem.subject;
 
-import com.group11.schoolmanagementsystem.student.dto.CreateStudentDto;
+import com.group11.schoolmanagementsystem.student.Student;
+import com.group11.schoolmanagementsystem.student.StudentService;
 import com.group11.schoolmanagementsystem.subject.dto.AssignSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.CreateSubjectDto;
-import com.group11.schoolmanagementsystem.subject.dto.DeleteSubjectDto;
+import com.group11.schoolmanagementsystem.subject.dto.EditSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
 import com.group11.schoolmanagementsystem.subject_section.dto.SubjectSectionDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +20,12 @@ import java.util.List;
 @RequestMapping("subject")
 public class SubjectController {
     private SubjectService subjectService;
+    private StudentService studentService;
 
     @Autowired
-    public SubjectController(SubjectService subjectService, ModelMapper modelMapper) {
+    public SubjectController(SubjectService subjectService, StudentService studentService) {
         this.subjectService = subjectService;
+        this.studentService = studentService;
     }
 
     @PostMapping("/create")
@@ -40,16 +42,16 @@ public class SubjectController {
         return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity<SubjectDto> editSubject(@Valid @RequestBody SubjectDto subjectDto) {
-        SubjectDto subject = subjectService.update(subjectDto);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SubjectDto> updateSubject(@RequestBody EditSubjectDto editSubjectDto, @PathVariable("id") Long id) {
+        SubjectDto subject = subjectService.update(id, editSubjectDto);
 
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<SubjectDto> deleteSubject(@Valid @RequestBody DeleteSubjectDto deleteSubjectDto) {
-        SubjectDto subject = subjectService.delete(deleteSubjectDto.getId());
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<SubjectDto> deleteSubject(@PathVariable("id") Long id) {
+        SubjectDto subject = subjectService.delete(id);
 
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
@@ -60,11 +62,4 @@ public class SubjectController {
 
         return new ResponseEntity(assignSubject, HttpStatus.OK);
     }
-
-    @GetMapping("/my")
-    public ResponseEntity<List<SubjectSectionDto>> getTeachersSubjects(@RequestParam("teacherId") Long teacherId) {
-        List<SubjectSectionDto> subjectSectionDtos = subjectService.getTeachersSubjects(teacherId);
-        return new ResponseEntity<>(subjectSectionDtos, HttpStatus.OK);
-    }
-
 }

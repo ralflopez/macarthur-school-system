@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class UpdateTeacherDto {
-    private Long id;
     private String firstName;
     private String middleName;
     private String lastName;

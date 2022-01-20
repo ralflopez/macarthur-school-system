@@ -1,7 +1,7 @@
 package com.group11.schoolmanagementsystem.department;
 
-import com.group11.schoolmanagementsystem.department.dto.DeleteDepartmentDto;
 import com.group11.schoolmanagementsystem.department.dto.DepartmentDto;
+import com.group11.schoolmanagementsystem.department.dto.EditDepartmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,16 +33,16 @@ public class DepartmentController {
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 
-    @PutMapping("/edit")
-    ResponseEntity<DepartmentDto> editDepartment(@Valid @RequestBody Department department) {
-        DepartmentDto departmentObj = departmentService.update(department);
+    @PutMapping("/edit/{id}")
+    ResponseEntity<DepartmentDto> editDepartment(@RequestBody EditDepartmentDto editDepartmentDto, @PathVariable("id") Long id) {
+        DepartmentDto departmentObj = departmentService.update(id, editDepartmentDto);
 
         return new ResponseEntity<>(departmentObj,HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    ResponseEntity<DepartmentDto> deleteDepartment(@Valid @RequestBody DeleteDepartmentDto deleteDepartmentDto) {
-        DepartmentDto department = departmentService.delete(deleteDepartmentDto.getId());
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<DepartmentDto> deleteDepartment(@PathVariable("id") Long id) {
+        DepartmentDto department = departmentService.delete(id);
 
         return new ResponseEntity<>(department, HttpStatus.OK);
     }

@@ -172,7 +172,7 @@ public class Seeder {
     public void seedSection() {
         for (int i = 0; i < 3; i++) {
             sections.add(
-              new Section(Long.valueOf(i + 1), 1, String.valueOf(i + 1), teachers.get(i), null)
+              new Section(Long.valueOf(i + 1), 1, String.valueOf(i + 1), teachers.get(i), null, null, null)
             );
         }
 
@@ -181,7 +181,7 @@ public class Seeder {
 
     public void seedStudent() {
         Random random = new Random();
-        students.add(new Student(Long.valueOf(12200000), "Test", "Student", "Student", 1, 1, 2016, Gender.MALE, sections.get(0), "test", "password"));
+        students.add(new Student(Long.valueOf(12200000), "Test", "Student", "Student", 1, 1, 2016, Gender.MALE, sections.get(0), "test", "password", null));
         for (int i = 1; i < 30; i++) {
             int randomDay = (int)Math.floor(Math.random()*(30-1+1)+1);
             int randomMonth = (int)Math.floor(Math.random()*(12-1+1)+1);
@@ -189,7 +189,7 @@ public class Seeder {
             boolean gender = random.nextBoolean();
 
             students.add(
-                    new Student(12200000 + Long.valueOf(i), "Student" + (i), "Student", "Student" + (i), randomMonth, randomDay, randomYear, Gender.valueOf(gender ? "MALE" : "FEMALE"), sections.get(0), "student" + (i), "password")
+                    new Student(12200000 + Long.valueOf(i), "Student" + (i), "Student", "Student" + (i), randomMonth, randomDay, randomYear, Gender.valueOf(gender ? "MALE" : "FEMALE"), sections.get(0), "student" + (i), "password", null)
             );
         }
 
@@ -237,13 +237,13 @@ public class Seeder {
             Question question = Question.builder()
                     .question("What is " + t.getSubject().getName() + "?")
                     .task(t)
+                    .type(QuestionType.valueOf("OPEN"))
                     .point(1)
                     .build();
 
             Answer answer = Answer.builder()
                     .question(question)
                     .answer("")
-                    .type(QuestionType.OPEN)
                     .build();
 
             question.setAnswers(List.of(answer));
@@ -252,6 +252,7 @@ public class Seeder {
             Question question1 = Question.builder()
                     .task(t)
                     .point(1)
+                    .type(QuestionType.valueOf("ALPHA"))
                     .question("What is this subject?")
                     .build();
 
@@ -274,7 +275,6 @@ public class Seeder {
 
             Answer answer1 = Answer.builder()
                     .question(question1)
-                    .type(QuestionType.ALPHA)
                     .answer("a")
                     .build();
 

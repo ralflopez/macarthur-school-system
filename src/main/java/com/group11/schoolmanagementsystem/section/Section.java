@@ -3,6 +3,8 @@ package com.group11.schoolmanagementsystem.section;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.student.Student;
 import com.group11.schoolmanagementsystem.subject.Subject;
+import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
+import com.group11.schoolmanagementsystem.task.Task;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
 import lombok.*;
 
@@ -33,4 +35,10 @@ public class Section {
 
     @OneToMany(mappedBy = "section")
     private List<Student> students;
+
+    @OneToMany(mappedBy = "section", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SubjectSection> subjectSections;
+
+    @OneToMany(mappedBy = "section", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Task> tasks;
 }

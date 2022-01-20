@@ -5,11 +5,10 @@ import com.group11.schoolmanagementsystem.section.Section;
 import com.group11.schoolmanagementsystem.section.SectionRepository;
 import com.group11.schoolmanagementsystem.section.converter.SectionDtoConverter;
 import com.group11.schoolmanagementsystem.section.dto.SectionDto;
-import com.group11.schoolmanagementsystem.student.Student;
 import com.group11.schoolmanagementsystem.subject.converter.SubjectDtoConverter;
 import com.group11.schoolmanagementsystem.subject.dto.AssignSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.CreateSubjectDto;
-import com.group11.schoolmanagementsystem.subject.dto.DeleteSubjectDto;
+import com.group11.schoolmanagementsystem.subject.dto.EditSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
 import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
 import com.group11.schoolmanagementsystem.subject_section.SubjectSectionKey;
@@ -17,7 +16,6 @@ import com.group11.schoolmanagementsystem.subject_section.SubjectSectionReposito
 import com.group11.schoolmanagementsystem.subject_section.dto.SubjectSectionDto;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
 import com.group11.schoolmanagementsystem.teacher.TeacherRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +60,8 @@ public class SubjectService {
         return subjects.stream().map(s -> subjectDtoConverter.subjectToDto(s)).collect(Collectors.toList());
     }
 
-    public SubjectDto update(SubjectDto subjectDto) {
-        Optional<Subject> subject = subjectRepository.findById(subjectDto.getId());
+    public SubjectDto update(Long id, EditSubjectDto subjectDto) {
+        Optional<Subject> subject = subjectRepository.findById(id);
         if (subject.isEmpty()) {
             throw new ApiRequestException("Subject Not Found");
         }

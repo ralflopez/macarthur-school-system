@@ -1,6 +1,7 @@
 package com.group11.schoolmanagementsystem.task;
 
 import com.group11.schoolmanagementsystem.enums.TaskType;
+import com.group11.schoolmanagementsystem.question.Question;
 import com.group11.schoolmanagementsystem.section.Section;
 import com.group11.schoolmanagementsystem.subject.Subject;
 import com.group11.schoolmanagementsystem.subject_section.SubjectSection;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -44,4 +46,6 @@ public class Task {
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Teacher teacher;
 
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Question> questions;
 }

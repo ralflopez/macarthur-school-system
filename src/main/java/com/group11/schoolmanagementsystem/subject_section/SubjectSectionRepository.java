@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface SubjectSectionRepository extends JpaRepository<SubjectSection, SubjectSectionKey> {
     Optional<List<SubjectSection>> findSubjectSectionsByTeacher_Id(Long teacherId);
     Optional<List<SubjectSection>> findSubjectSectionsBySection_Id(Long sectionId);
+    Optional<SubjectSection> findSubjectSectionBySection_IdAndSubject_Id(Long sectionId, Long subjectId);
 }

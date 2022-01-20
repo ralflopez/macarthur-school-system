@@ -37,4 +37,13 @@ public class SubjectSectionService {
 
         return subjectSection.get();
     }
+
+//    public SubjectSection getSubjectSectionByBothIds(Long sectionId, Long subjectId) {
+//        Optional<SubjectSection> subjectSection = subjectSectionRepository.findSubjectSectionBySection_IdAndSubject_Id(sectionId, subjectId);
+//        if (subjectSection.isEmpty()) {
+//            throw new ApiRequestException("Subject / Section Not Found");
+//        }
+//
+//        return subjectSection.get();
+//    }
 }

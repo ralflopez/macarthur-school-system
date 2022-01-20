@@ -27,12 +27,18 @@ public class Question {
     @Column(nullable = false)
     private String question;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
     @Column(nullable = false)
     private int point = 1;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question")
     private List<Choice> choices;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
+
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Question> grades;
 }

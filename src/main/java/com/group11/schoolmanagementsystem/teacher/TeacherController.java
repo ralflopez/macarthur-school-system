@@ -1,6 +1,8 @@
 package com.group11.schoolmanagementsystem.teacher;
 
 import com.group11.schoolmanagementsystem.enums.SubjectDepartment;
+import com.group11.schoolmanagementsystem.section.SectionService;
+import com.group11.schoolmanagementsystem.section.dto.SectionDto;
 import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
 import com.group11.schoolmanagementsystem.teacher.dto.CreateTeacherDto;
 import com.group11.schoolmanagementsystem.teacher.dto.DeleteTeacherDto;
@@ -20,10 +22,12 @@ import java.util.Locale;
 @RequestMapping("/teacher")
 public class TeacherController {
     private TeacherService teacherService;
+    private SectionService sectionService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, ModelMapper modelMapper) {
+    public TeacherController(TeacherService teacherService, SectionService sectionService) {
         this.teacherService = teacherService;
+        this.sectionService = sectionService;
     }
 
     @PostMapping("/create")
@@ -46,25 +50,32 @@ public class TeacherController {
         return new ResponseEntity<>(teacherDto, HttpStatus.OK);
     }
 
-    @GetMapping("/department")
-    public ResponseEntity<List<TeacherDto>> getAllByDepartmentId(@RequestParam("departmentId") Long id) {
+    @GetMapping("/department/{id}")
+    public ResponseEntity<List<TeacherDto>> getAllByDepartmentId(@PathVariable("id") Long id) {
         List<TeacherDto> teachers = teacherService.findByDepartmentId(id);
 
         return new ResponseEntity<>(teachers, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<TeacherDto> updateTeacher(@RequestBody UpdateTeacherDto updateTeacherDto) {
-        TeacherDto teacher = teacherService.update(updateTeacherDto);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TeacherDto> updateTeacher(@RequestBody UpdateTeacherDto updateTeacherDto, @PathVariable("id") Long id) {
+        TeacherDto teacher = teacherService.update(id, updateTeacherDto);
 
         return new ResponseEntity<>(teacher, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<TeacherDto> deleteTeacherById(@RequestBody DeleteTeacherDto deleteTeacherDto) {
-        TeacherDto teacher = teacherService.delete(deleteTeacherDto.getId());
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<TeacherDto> deleteTeacherById(@PathVariable("id") Long id) {
+        TeacherDto teacher = teacherService.delete(id);
 
         return new ResponseEntity(teacher, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/advisory")
+    public ResponseEntity<SectionDto> getAdvisoryClass(@PathVariable("id") Long id) {
+        SectionDto sectionDto = sectionService.getAdvisoryClass(id);
+
+        return new ResponseEntity<>(sectionDto, HttpStatus.OK);
     }
 
 }

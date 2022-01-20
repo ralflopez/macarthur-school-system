@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UpdateSectionDto {
-    private Long id;
-
     private int grade;
 
     private String name;

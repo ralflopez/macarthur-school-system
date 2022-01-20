@@ -22,10 +22,6 @@ public class Grade {
     @JoinColumn(name = "student_id", referencedColumnName = "lrn")
     private Student student;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "task_id", referencedColumnName = "id")
-//    private Task task;
-
     @ManyToOne
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;

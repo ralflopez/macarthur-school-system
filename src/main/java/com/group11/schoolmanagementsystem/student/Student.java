@@ -1,11 +1,13 @@
 package com.group11.schoolmanagementsystem.student;
 
 import com.group11.schoolmanagementsystem.enums.Gender;
+import com.group11.schoolmanagementsystem.grade.Grade;
 import com.group11.schoolmanagementsystem.school.School;
 import com.group11.schoolmanagementsystem.section.Section;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,4 +51,7 @@ public class Student {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Grade> grades;
 }

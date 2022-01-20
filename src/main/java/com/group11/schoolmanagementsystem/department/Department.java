@@ -21,10 +21,10 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "head_teacher_id", referencedColumnName = "id")
     private Teacher head;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Teacher> teachers;
 }

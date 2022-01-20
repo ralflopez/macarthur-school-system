@@ -82,8 +82,8 @@ public class StudentService {
         return studentDtoConverter.studentToDto(student.get());
     }
 
-    public StudentDto update(UpdateStudentDto updateStudentDto) {
-        Optional<Student> student = studentRepository.findById(updateStudentDto.getLrn());
+    public StudentDto update(Long id, UpdateStudentDto updateStudentDto) {
+        Optional<Student> student = studentRepository.findById(id);
         if (student.isEmpty()) {
             throw new ApiRequestException("Student Not Found");
         }
@@ -104,7 +104,7 @@ public class StudentService {
         studentUpdate.setLastName(updateStudentDto.getLastName());
         studentUpdate.setUsername(updateStudentDto.getUsername());
         studentUpdate.setPassword(updateStudentDto.getPassword());
-        studentUpdate.setLrn(updateStudentDto.getLrn());
+        studentUpdate.setLrn(id);
 
         Student updatedStudent = studentRepository.save(studentUpdate);
 

@@ -44,7 +44,7 @@ public class Teacher {
 //    )
 //    private List<Subject> subjects;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 }

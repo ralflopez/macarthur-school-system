@@ -2,6 +2,7 @@ package com.group11.schoolmanagementsystem.department;
 
 import com.group11.schoolmanagementsystem.department.converter.DepartmentDtoConverter;
 import com.group11.schoolmanagementsystem.department.dto.DepartmentDto;
+import com.group11.schoolmanagementsystem.department.dto.EditDepartmentDto;
 import com.group11.schoolmanagementsystem.exception.ApiRequestException;
 import com.group11.schoolmanagementsystem.teacher.Teacher;
 import com.group11.schoolmanagementsystem.teacher.TeacherRepository;
@@ -39,14 +40,14 @@ public class DepartmentService {
         return departments.stream().map(d -> departmentDtoConverter.departmentToDto(d)).collect(Collectors.toList());
     }
 
-    public DepartmentDto update(Department department) {
-        if (departmentRepository.findById(department.getId()).isEmpty()) {
+    public DepartmentDto update(Long id, EditDepartmentDto editDepartmentDto) {
+        if (departmentRepository.findById(id).isEmpty()) {
             throw new ApiRequestException("Department Doesn't Exist");
         }
 
         Department departmentUpdate = Department.builder()
-                .id(department.getId())
-                .name(department.getName())
+                .id(id)
+                .name(editDepartmentDto.getName())
                 .build();
 
         Department updatedDepartment = departmentRepository.save(departmentUpdate);

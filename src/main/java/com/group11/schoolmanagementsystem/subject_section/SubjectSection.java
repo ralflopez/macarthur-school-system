@@ -17,17 +17,17 @@ public class SubjectSection {
     @EmbeddedId
     SubjectSectionKey subjectSectionKey;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("subjectId")
     @JoinColumn(name = "subject_id")
     Subject subject;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("sectionId")
     @JoinColumn(name = "section_id")
     Section section;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     Teacher teacher;
 }

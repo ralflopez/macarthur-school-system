@@ -1,9 +1,10 @@
 package com.group11.schoolmanagementsystem.section;
 
 import com.group11.schoolmanagementsystem.section.dto.CreateSectionDto;
-import com.group11.schoolmanagementsystem.section.dto.DeleteSectionDto;
 import com.group11.schoolmanagementsystem.section.dto.SectionDto;
 import com.group11.schoolmanagementsystem.section.dto.UpdateSectionDto;
+import com.group11.schoolmanagementsystem.student.StudentService;
+import com.group11.schoolmanagementsystem.student.dto.StudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,12 @@ import java.util.List;
 @RequestMapping("/section")
 public class SectionController {
     private SectionService sectionService;
+    private StudentService studentService;
 
     @Autowired
-    public SectionController(SectionService sectionService) {
+    public SectionController(SectionService sectionService, StudentService studentService) {
         this.sectionService = sectionService;
+        this.studentService = studentService;
     }
 
     @PostMapping("/create")
@@ -35,25 +38,24 @@ public class SectionController {
         return new ResponseEntity<>(sections, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<SectionDto> updateSection(@RequestBody UpdateSectionDto updateSectionDto) {
-        SectionDto section = sectionService.update(updateSectionDto);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SectionDto> updateSection(@RequestBody UpdateSectionDto updateSectionDto, @PathVariable("id") Long id) {
+        SectionDto section = sectionService.update(id, updateSectionDto);
 
         return new ResponseEntity<>(section, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<SectionDto> deleteSection(@RequestBody DeleteSectionDto deleteSectionDto) {
-        SectionDto section = sectionService.delete(deleteSectionDto.getId());
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<SectionDto> deleteSection(@PathVariable("id") Long id) {
+        SectionDto section = sectionService.delete(id);
 
         return new ResponseEntity(section, HttpStatus.OK);
     }
 
-    @GetMapping("/advisory")
-    public ResponseEntity<SectionDto> getAdvisoryClass(@RequestParam("adviser") Long adviserId) {
-        SectionDto sectionDto = sectionService.getAdvisoryClass(adviserId);
-
-        return new ResponseEntity<>(sectionDto, HttpStatus.OK);
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<StudentDto>> getStudentsBySection(@PathVariable("id") Long id) {
+        List<StudentDto> studentDtos = studentService.findBySectionId(id);
+        return new ResponseEntity<>(studentDtos, HttpStatus.OK);
     }
 
 }

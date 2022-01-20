@@ -92,8 +92,8 @@ public class TeacherService {
         return teachers.get().stream().map(t -> teacherDtoConverter.teacherToDto(t)).collect(Collectors.toList());
     }
 
-    public TeacherDto update(UpdateTeacherDto updateTeacherDto) {
-        Optional<Teacher> teacher = teacherRepository.findById(updateTeacherDto.getId());
+    public TeacherDto update(Long id, UpdateTeacherDto updateTeacherDto) {
+        Optional<Teacher> teacher = teacherRepository.findById(id);
         if (teacher.isEmpty()) {
             throw new ApiRequestException("Teacher Not Found");
         }
@@ -120,6 +120,11 @@ public class TeacherService {
         Optional<Teacher> teacher = teacherRepository.findById(id);
         if (teacher.isEmpty()) {
             throw new ApiRequestException("Teacher Doesn't Exist");
+        }
+
+        Optional<Department> department = departmentRepository.findByHead_Id(id);
+        if (department.isPresent()) {
+            throw new ApiRequestException("Teacher is head of a department");
         }
 
         teacherRepository.deleteById(id);
