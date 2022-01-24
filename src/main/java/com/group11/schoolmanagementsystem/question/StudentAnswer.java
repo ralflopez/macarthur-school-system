@@ -1,24 +1,27 @@
 package com.group11.schoolmanagementsystem.question;
 
-import com.group11.schoolmanagementsystem.enums.QuestionType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
 
-    private String answer;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "choice_id", referencedColumnName = "id")
+    private Choice choice;
 }
