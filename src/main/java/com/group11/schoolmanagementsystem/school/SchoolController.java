@@ -1,6 +1,7 @@
 package com.group11.schoolmanagementsystem.school;
 
 import com.group11.schoolmanagementsystem.exception.ApiRequestException;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @RestController
 @RequestMapping
 @CrossOrigin
+@Api(tags = "School")
 public class SchoolController {
     private SchoolService schoolService;
 
@@ -21,8 +26,8 @@ public class SchoolController {
     }
 
     @GetMapping
-    public String welcome() {
-        return "Group 11: School Management API";
+    public void welcome(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/swagger-ui.html");
     }
 
     @GetMapping("/school")

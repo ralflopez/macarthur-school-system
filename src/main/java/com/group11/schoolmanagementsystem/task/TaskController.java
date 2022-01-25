@@ -3,6 +3,7 @@ package com.group11.schoolmanagementsystem.task;
 import com.group11.schoolmanagementsystem.task.dto.CreateTaskDto;
 import com.group11.schoolmanagementsystem.task.dto.UpdateTaskDto;
 import com.group11.schoolmanagementsystem.task.dto.TaskDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("task")
 @CrossOrigin
+@Api(tags = "Student Task / Lesson")
 public class TaskController {
     private TaskService taskService;
 

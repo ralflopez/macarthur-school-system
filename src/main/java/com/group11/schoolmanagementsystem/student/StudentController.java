@@ -4,6 +4,7 @@ import com.group11.schoolmanagementsystem.student.dto.CreateStudentDto;
 import com.group11.schoolmanagementsystem.student.dto.StudentDto;
 import com.group11.schoolmanagementsystem.student.dto.UpdateStudentDto;
 import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("student")
 @CrossOrigin
+@Api(tags = "Student")
 public class StudentController {
     private StudentService studentService;
 

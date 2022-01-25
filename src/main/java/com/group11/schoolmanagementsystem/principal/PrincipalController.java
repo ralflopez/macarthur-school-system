@@ -5,6 +5,7 @@ import com.group11.schoolmanagementsystem.teacher.Teacher;
 import com.group11.schoolmanagementsystem.teacher.TeacherService;
 import com.group11.schoolmanagementsystem.teacher.dto.CreateTeacherDto;
 import com.group11.schoolmanagementsystem.teacher.dto.TeacherDto;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/principal")
 @CrossOrigin
+@Api(tags = "Principal")
 public class PrincipalController {
     private PrincipalService principalService;
 

@@ -4,6 +4,7 @@ import com.group11.schoolmanagementsystem.question.dto.AnswerQuestionDto;
 import com.group11.schoolmanagementsystem.question.dto.CreateQuestionDto;
 import com.group11.schoolmanagementsystem.question.dto.QuestionDto;
 import com.group11.schoolmanagementsystem.question.dto.StudentAnswerResultDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("question")
 @CrossOrigin
+@Api(tags = "Task Question")
 public class QuestionController {
     private QuestionService questionService;
 

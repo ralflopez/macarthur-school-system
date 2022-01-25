@@ -5,6 +5,7 @@ import com.group11.schoolmanagementsystem.section.dto.SectionDto;
 import com.group11.schoolmanagementsystem.section.dto.UpdateSectionDto;
 import com.group11.schoolmanagementsystem.student.StudentService;
 import com.group11.schoolmanagementsystem.student.dto.StudentDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/section")
 @CrossOrigin
+@Api(tags = "Class Section")
 public class SectionController {
     private SectionService sectionService;
     private StudentService studentService;

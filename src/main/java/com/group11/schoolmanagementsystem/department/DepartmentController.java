@@ -2,6 +2,7 @@ package com.group11.schoolmanagementsystem.department;
 
 import com.group11.schoolmanagementsystem.department.dto.DepartmentDto;
 import com.group11.schoolmanagementsystem.department.dto.EditDepartmentDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("department")
 @CrossOrigin
+@Api(tags = "Department")
 public class DepartmentController {
     private DepartmentService departmentService;
 

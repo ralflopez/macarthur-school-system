@@ -7,6 +7,7 @@ import com.group11.schoolmanagementsystem.subject.dto.CreateSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.EditSubjectDto;
 import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
 import com.group11.schoolmanagementsystem.subject_section.dto.SubjectSectionDto;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("subject")
 @CrossOrigin
+@Api(tags = "Subject")
 public class SubjectController {
     private SubjectService subjectService;
     private StudentService studentService;

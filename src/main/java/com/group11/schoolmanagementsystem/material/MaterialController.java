@@ -2,6 +2,7 @@ package com.group11.schoolmanagementsystem.material;
 
 import com.group11.schoolmanagementsystem.exception.ApiRequestException;
 import com.group11.schoolmanagementsystem.material.dto.CreateMaterialDto;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/material")
 @CrossOrigin
+@Api(tags = "Material")
 public class MaterialController {
     private MaterialService materialService;
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
