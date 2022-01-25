@@ -4,6 +4,8 @@ import com.group11.schoolmanagementsystem.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class SchoolService {
     private SchoolRepository schoolRepository;
@@ -23,8 +25,12 @@ public class SchoolService {
     }
 
     public School get() {
-        Long id = Long.valueOf(1);
-        School school = schoolRepository.getById(id);
-        return school;
+        Long id = Long.valueOf(122474);
+        Optional<School> school = schoolRepository.findById(id);
+        if (school.isEmpty()) {
+            throw new ApiRequestException("School Not Found");
+        }
+
+        return school.get();
     }
 }

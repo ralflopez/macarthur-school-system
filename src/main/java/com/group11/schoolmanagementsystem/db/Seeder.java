@@ -230,12 +230,6 @@ public class Seeder {
     public void seedQuestions() {
         for (int i = 0; i < tasks.size(); i++) {
             Task t = tasks.get(i);
-//            Question question = Question.builder()
-//                    .question("What is " + t.getSubject().getName() + "?")
-//                    .task(t)
-//                    .type(QuestionType.valueOf("OPEN"))
-//                    .point(1)
-//                    .build();
 
             Question question1 = Question.builder()
                     .task(t)
@@ -264,7 +258,6 @@ public class Seeder {
 
             question1.setChoices(List.of(choice11, choice12, choice13));
 
-//            questions.add(question);
             questions.add(question1);
         }
 
