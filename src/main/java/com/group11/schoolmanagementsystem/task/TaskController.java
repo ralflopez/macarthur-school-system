@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("task")
+@CrossOrigin
 public class TaskController {
     private TaskService taskService;
 
@@ -26,7 +27,7 @@ public class TaskController {
         return new ResponseEntity<>(taskDto, HttpStatus.OK);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<TaskDto> deleteTask(@PathVariable("id") Long id) {
         TaskDto taskDto = taskService.delete(id);
         return new ResponseEntity<>(taskDto, HttpStatus.OK);
@@ -38,7 +39,7 @@ public class TaskController {
         return new ResponseEntity<>(taskDto, HttpStatus.OK);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<TaskDto> updateTask(@RequestBody UpdateTaskDto updateTaskDto, @PathVariable("id") Long id) {
         TaskDto taskDto = taskService.update(id, updateTaskDto);
         return new ResponseEntity<>(taskDto, HttpStatus.OK);

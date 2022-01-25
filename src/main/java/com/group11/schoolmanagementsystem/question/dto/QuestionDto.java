@@ -15,6 +15,6 @@ public class QuestionDto {
     private String question;
     private Long taskId;
     private int point;
-    private List<String> choices;
+    private List<ChoiceDto> choices;
     private String type;
 }

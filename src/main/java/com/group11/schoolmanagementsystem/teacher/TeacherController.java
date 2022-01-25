@@ -1,14 +1,10 @@
 package com.group11.schoolmanagementsystem.teacher;
 
-import com.group11.schoolmanagementsystem.enums.SubjectDepartment;
 import com.group11.schoolmanagementsystem.section.SectionService;
 import com.group11.schoolmanagementsystem.section.dto.SectionDto;
-import com.group11.schoolmanagementsystem.subject.dto.SubjectDto;
 import com.group11.schoolmanagementsystem.teacher.dto.CreateTeacherDto;
-import com.group11.schoolmanagementsystem.teacher.dto.DeleteTeacherDto;
 import com.group11.schoolmanagementsystem.teacher.dto.TeacherDto;
 import com.group11.schoolmanagementsystem.teacher.dto.UpdateTeacherDto;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/teacher")
+@CrossOrigin
 public class TeacherController {
     private TeacherService teacherService;
     private SectionService sectionService;

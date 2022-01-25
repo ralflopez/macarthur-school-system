@@ -1,7 +1,9 @@
 package com.group11.schoolmanagementsystem.question;
 
+import com.group11.schoolmanagementsystem.question.dto.AnswerQuestionDto;
 import com.group11.schoolmanagementsystem.question.dto.CreateQuestionDto;
 import com.group11.schoolmanagementsystem.question.dto.QuestionDto;
+import com.group11.schoolmanagementsystem.question.dto.StudentAnswerResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question")
+@CrossOrigin
 public class QuestionController {
     private QuestionService questionService;
 
@@ -25,16 +28,28 @@ public class QuestionController {
         return new ResponseEntity<>(questionDto, HttpStatus.OK);
     }
 
-    @GetMapping("/task")
-    public ResponseEntity<List<QuestionDto>> getQuestionsByTaskId(@RequestParam("taskId") Long taskId) {
-        List<QuestionDto> questionDtos = questionService.getQuestionByTaskId(taskId);
-        return new ResponseEntity<List<QuestionDto>>(questionDtos, HttpStatus.OK);
+    @GetMapping("/task/{id}")
+    public ResponseEntity<List<QuestionDto>> getQuestionsByTaskId(@PathVariable("id") Long id) {
+        List<QuestionDto> questionDtos = questionService.getQuestionByTaskId(id);
+        return new ResponseEntity<>(questionDtos, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<QuestionDto> updateQuestion(@PathVariable("id") Long id, @RequestBody CreateQuestionDto createQuestionDto) {
+        QuestionDto questionDto = questionService.update(id, createQuestionDto);
+        return new ResponseEntity<>(questionDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<QuestionDto> deleteQuestionById(@PathVariable("id") Long id) {
         QuestionDto questionDto = questionService.delete(id);
         return new ResponseEntity<>(questionDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/answer/{studentId}")
+    public ResponseEntity<List<StudentAnswerResultDto>> answerQuestion(@PathVariable("studentId") Long studentId, @RequestBody AnswerQuestionDto answerQuestionDto) {
+        List<StudentAnswerResultDto> answerResultDto = questionService.answerQuestion(studentId, answerQuestionDto);
+        return new ResponseEntity<>(answerResultDto, HttpStatus.OK);
     }
 
 }

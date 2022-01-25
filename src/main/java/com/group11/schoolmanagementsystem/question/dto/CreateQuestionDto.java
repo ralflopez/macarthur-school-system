@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +15,6 @@ public class CreateQuestionDto {
     private String question;
     private Long taskId;
     private int point;
-    private String[] answers;
-    private String[] choices;
+    private List<ChoiceDto> choices;
     private String type;
 }

@@ -25,4 +25,5 @@ public class TaskDto {
     private Long subjectId;
     private Long sectionId;
     private Long teacherId;
+    private List<QuestionDto> questions;
 }

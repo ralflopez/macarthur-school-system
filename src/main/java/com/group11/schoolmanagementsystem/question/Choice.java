@@ -21,4 +21,6 @@ public class Choice {
     private Question question;
 
     private String choice;
+
+    private boolean isAnswer;
 }

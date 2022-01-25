@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("subject")
+@CrossOrigin
 public class SubjectController {
     private SubjectService subjectService;
     private StudentService studentService;

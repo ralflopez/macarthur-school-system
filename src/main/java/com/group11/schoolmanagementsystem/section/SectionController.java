@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/section")
+@CrossOrigin
 public class SectionController {
     private SectionService sectionService;
     private StudentService studentService;

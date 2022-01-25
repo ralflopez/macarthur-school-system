@@ -21,4 +21,10 @@ public class SchoolService {
 
         return schoolRepository.save(school);
     }
+
+    public School get() {
+        Long id = Long.valueOf(1);
+        School school = schoolRepository.getById(id);
+        return school;
+    }
 }

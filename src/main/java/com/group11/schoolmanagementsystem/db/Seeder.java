@@ -2,16 +2,13 @@ package com.group11.schoolmanagementsystem.db;
 
 import com.group11.schoolmanagementsystem.department.Department;
 import com.group11.schoolmanagementsystem.department.DepartmentRepository;
-import com.group11.schoolmanagementsystem.department.dto.DepartmentDto;
 import com.group11.schoolmanagementsystem.enums.Gender;
 import com.group11.schoolmanagementsystem.enums.QuestionType;
-import com.group11.schoolmanagementsystem.enums.SubjectDepartment;
 import com.group11.schoolmanagementsystem.enums.TaskType;
 import com.group11.schoolmanagementsystem.grade.Grade;
 import com.group11.schoolmanagementsystem.grade.GradeRepository;
 import com.group11.schoolmanagementsystem.principal.Principal;
 import com.group11.schoolmanagementsystem.principal.PrincipalRepository;
-import com.group11.schoolmanagementsystem.question.Answer;
 import com.group11.schoolmanagementsystem.question.Choice;
 import com.group11.schoolmanagementsystem.question.Question;
 import com.group11.schoolmanagementsystem.question.QuestionRepository;
@@ -36,7 +33,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class Seeder {
@@ -234,20 +230,12 @@ public class Seeder {
     public void seedQuestions() {
         for (int i = 0; i < tasks.size(); i++) {
             Task t = tasks.get(i);
-            Question question = Question.builder()
-                    .question("What is " + t.getSubject().getName() + "?")
-                    .task(t)
-                    .type(QuestionType.valueOf("OPEN"))
-                    .point(1)
-                    .build();
-
-            Answer answer = Answer.builder()
-                    .question(question)
-                    .answer("")
-                    .build();
-
-            question.setAnswers(List.of(answer));
-            questions.add(question);
+//            Question question = Question.builder()
+//                    .question("What is " + t.getSubject().getName() + "?")
+//                    .task(t)
+//                    .type(QuestionType.valueOf("OPEN"))
+//                    .point(1)
+//                    .build();
 
             Question question1 = Question.builder()
                     .task(t)
@@ -259,26 +247,24 @@ public class Seeder {
             Choice choice11 = Choice.builder()
                     .choice(subjects.get(i))
                     .question(question1)
+                    .isAnswer(true)
                     .build();
 
             Choice choice12 = Choice.builder()
                     .choice("Classroom")
                     .question(question1)
+                    .isAnswer(false)
                     .build();
 
             Choice choice13 = Choice.builder()
                     .choice("Wrong Answer")
                     .question(question1)
+                    .isAnswer(false)
                     .build();
 
             question1.setChoices(List.of(choice11, choice12, choice13));
 
-            Answer answer1 = Answer.builder()
-                    .question(question1)
-                    .answer("a")
-                    .build();
-
-            question1.setAnswers(List.of(answer1));
+//            questions.add(question);
             questions.add(question1);
         }
 

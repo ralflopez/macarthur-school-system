@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/material")
+@CrossOrigin
 public class MaterialController {
     private MaterialService materialService;
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
